@@ -8,6 +8,7 @@
 #include<QTimer>
 #include<QLabel>
 #include"dataconfig.h"
+#include<QPropertyAnimation>
 
 PlayScene::PlayScene(int index)
 {
@@ -75,6 +76,16 @@ PlayScene::PlayScene(int index)
     label->setGeometry(QRect(30,this->height()-50,120,50));
 
 
+    //提前创建胜利图片，并隐藏在屏幕外部
+    QLabel *winlabel = new QLabel;
+    QPixmap tmpPix;
+    tmpPix.load(":/res/LevelCompletedDialogBg.png");
+    winlabel->setGeometry(0,0,tmpPix.width(),tmpPix.height());
+    winlabel->setPixmap(tmpPix);
+    winlabel->setParent(this);
+    winlabel->move((this->width()-tmpPix.width())*0.5, -tmpPix.height());
+
+
     //创建金币的背景图片
     for(int i=0; i<4; i++)
     {
@@ -135,7 +146,51 @@ PlayScene::PlayScene(int index)
                         gameArray[coin->posX][coin->posY-1]=
                                 gameArray[coin->posX][coin->posY-1] ==0?1:0;
                     }
+
+                    //判断是否胜利
+                    this->isWin = true;
+                    for(int i=0; i<4; i++)
+                    {
+                        for(int j=0; j<4; j++)
+                        {
+                            if(coinBtn[i][j]->flag==false)
+                            {
+                                this->isWin = false;
+                                break;
+                            }
+                        }
+                    }
+                    if(this->isWin)
+                    {
+//                        qDebug()<<"胜利";
+                        QPropertyAnimation * animation1
+                                = new QPropertyAnimation(winlabel,"geometry");
+                        animation1->setDuration(1000);
+                        animation1->setStartValue(QRect(winlabel->x(),winlabel->y(),
+                                           winlabel->width(),winlabel->height()));
+
+                        animation1->setEndValue(QRect(winlabel->x(),winlabel->y()+winlabel->height()+this->height()*0.1,
+                                           winlabel->width(),winlabel->height()));
+
+                        animation1->setEasingCurve(QEasingCurve::OutBounce);
+                        animation1->start();
+
+                        //禁用所有按钮点击事件
+                        for(int i=0; i<4; i++)
+                        {
+                            for(int j=0; j<4; j++)
+                            {
+                                coinBtn[i][j]->isWin = true;
+                            }
+                        }
+
+
+                    }
+
+
                 });
+
+
 
             });
 
@@ -162,3 +217,5 @@ void PlayScene::paintEvent(QPaintEvent *)
     painter.drawPixmap(10,30,pix.width(),pix.height(),pix);
 
 }
+
+

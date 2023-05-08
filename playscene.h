@@ -17,6 +17,8 @@ public:
 
     MyCoin * coinBtn[4][4]; //所有的金币按钮
 
+    bool isWin = true; //是否胜利
+
 signals:
     void playSceneBack();
 

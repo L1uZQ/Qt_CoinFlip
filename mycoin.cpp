@@ -67,7 +67,7 @@ void MyCoin::changeFlag()
 
 void MyCoin::mousePressEvent(QMouseEvent *e)
 {
-    if(this->isAnimation) //如果是在动画期间，忽略鼠标的按下事件
+    if(this->isAnimation || isWin) //如果是在动画期间，忽略鼠标的按下事件
     {
         return ;
     }

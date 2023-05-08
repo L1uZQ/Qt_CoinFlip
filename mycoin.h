@@ -23,6 +23,8 @@ public:
 
     bool isAnimation = false; //能否翻转的标志，默认不能翻转，点击时可以
 
+    bool isWin = false; //胜利标志
+
     //重写按钮的按下事件
     void mousePressEvent(QMouseEvent *e);
 
