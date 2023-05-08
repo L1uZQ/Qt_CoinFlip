@@ -1,8 +1,9 @@
 #include "mainscene.h"
 #include "ui_mainscene.h"
-#include"mypushbutton.h"
+#include "mypushbutton.h"
 #include <QPainter>
-#include<QTimer>
+#include <QTimer>
+#include <QSound>
 MainScene::MainScene(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainScene)
@@ -20,6 +21,9 @@ MainScene::MainScene(QWidget *parent) :
         this->close();
     });
 
+
+    QSound * startSound = new QSound(":/res/TapButtonSound.wav",this);
+
     //开始按钮
     MyPushButton * startBtn = new MyPushButton(":/res/MenuSceneStartButton.png");
 
@@ -31,6 +35,9 @@ MainScene::MainScene(QWidget *parent) :
     connect(startBtn, &MyPushButton::clicked,[=](){
         startBtn->zoom1(); //向下跳跃
         startBtn->zoom2(); //向上跳跃
+
+        //播放音效
+        startSound->play();
 
         QTimer::singleShot(500,this,[=](){
             this->hide();

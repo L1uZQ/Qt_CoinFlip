@@ -1,4 +1,4 @@
-#include "playscene.h"
+#include"playscene.h"
 #include<QDebug>
 #include<QMainWindow>
 #include<QMenuBar>
@@ -9,6 +9,7 @@
 #include<QLabel>
 #include"dataconfig.h"
 #include<QPropertyAnimation>
+#include<QSound>
 
 PlayScene::PlayScene(int index)
 {
@@ -49,6 +50,9 @@ PlayScene::PlayScene(int index)
     });
 
 
+    //返回音效
+    QSound * backSound = new QSound(":/res/BackButtonSound.wav",this);
+
     //创建返回按钮
     MyPushButton * closeBtn = new MyPushButton(":/res/BackButton.png",":/res/BackButtonSelected.png");
     closeBtn->setParent(this);
@@ -56,6 +60,7 @@ PlayScene::PlayScene(int index)
     closeBtn->move(this->width()-closeBtn->width(), this->height()-closeBtn->height());
 
     connect(closeBtn,&MyPushButton::clicked,[=](){
+        backSound->play();
         QTimer::singleShot(250,this,[=](){
            this->hide();
            emit this->playSceneBack();
@@ -85,6 +90,9 @@ PlayScene::PlayScene(int index)
     winlabel->setParent(this);
     winlabel->move((this->width()-tmpPix.width())*0.5, -tmpPix.height());
 
+
+    QSound * flipSound = new QSound(":/res/ConFlipSound.wav",this);
+    QSound * winSound = new QSound(":/res/LevelWinSound.wav",this);
 
     //创建金币的背景图片
     for(int i=0; i<4; i++)
@@ -117,6 +125,8 @@ PlayScene::PlayScene(int index)
             coinBtn[i][j]=coin;
 
             connect(coin, &MyCoin::clicked,[=](){
+                //翻转音效
+                flipSound->play();
                 coin->changeFlag();
                 gameArray[i][j] = gameArray[i][j]==0 ? 1:0;
 
@@ -162,6 +172,8 @@ PlayScene::PlayScene(int index)
                     }
                     if(this->isWin)
                     {
+                        //胜利音效
+                        winSound->play();
 //                        qDebug()<<"胜利";
                         QPropertyAnimation * animation1
                                 = new QPropertyAnimation(winlabel,"geometry");
@@ -184,13 +196,10 @@ PlayScene::PlayScene(int index)
                             }
                         }
 
-
                     }
 
 
                 });
-
-
 
             });
 

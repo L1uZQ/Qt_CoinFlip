@@ -5,6 +5,7 @@
 #include<QLabel>
 #include<QtDebug>
 #include"mypushbutton.h"
+#include<QSound>
 
 ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
 {
@@ -28,6 +29,8 @@ ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
        this->close();//退出
     });
 
+    QSound * backSound = new QSound(":/res/BackButtonSound.wav",this);
+
     //返回按钮
     MyPushButton * closeBtn = new MyPushButton(":/res/BackButton.png",":/res/BackButtonSelected.png");
 
@@ -36,6 +39,7 @@ ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
     //  返回按钮设置在窗口右下方
     closeBtn->move(this->width()-closeBtn->width(), this->height()-closeBtn->height());
     connect(closeBtn,&MyPushButton::clicked,[=](){
+        backSound->play();
         QTimer::singleShot(250,this,[=](){
            this->hide();
             emit this->ChooseSceneBack();
@@ -43,6 +47,8 @@ ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
     });
 
 
+    //选择关卡音效
+    QSound * chooseSound = new QSound(":/res/TapButtonSound.wav",this);
 
     //创建选择关卡按钮
     for(int i=0; i<20; i++)
@@ -66,6 +72,8 @@ ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
 
         connect(menuBtn, &MyPushButton::clicked, [=](){
 //            qDebug()<<i;
+            chooseSound->play();
+
             if(pScene==NULL){
                 this->hide();
                 pScene = new PlayScene(i+1);
