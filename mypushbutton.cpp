@@ -90,7 +90,6 @@ void MyPushButton::mousePressEvent(QMouseEvent *e)
 }
 
 
-
 void MyPushButton::mouseReleaseEvent(QMouseEvent *e)
 {
     if(normalImgPath !="")

@@ -7,11 +7,24 @@
 #include"mycoin.h"
 #include<QTimer>
 #include<QLabel>
+#include"dataconfig.h"
 
 PlayScene::PlayScene(int index)
 {
     qDebug()<<"当前关卡为："<<index;
     this->levalIndex = index;
+
+    //初始化代表该关卡的金币初始状态的二维数组
+    dataConfig config;
+    for(int i=0; i<4; i++)
+    {
+        for(int j=0; j<4; j++)
+        {
+            gameArray[i][j] = config.mData[this->levalIndex][i][j];
+        }
+    }
+
+
     //设置窗口固定大小
     this->setFixedSize(320,588);
 
@@ -74,9 +87,59 @@ PlayScene::PlayScene(int index)
             label->setParent(this);
             label->move(57+i*50, 200+j*50);
 
-            MyCoin * coin = new MyCoin(":/res/Coin0001.png");
+            QString img;
+            if(gameArray[i][j]==1){
+                img=":/res/Coin0001.png";
+            }
+            else if(gameArray[i][j]==0){
+                img=":/res/Coin0008.png";
+            }
+
+
+            MyCoin * coin = new MyCoin(img);
             coin->setParent(this);
             coin->move(59+i*50, 204+j*50);
+            coin->posX = i;//x坐标
+            coin->posY = j;//y坐标
+            coin->flag =gameArray[i][j]; //正反标志
+
+            coinBtn[i][j]=coin;
+
+            connect(coin, &MyCoin::clicked,[=](){
+                coin->changeFlag();
+                gameArray[i][j] = gameArray[i][j]==0 ? 1:0;
+
+
+                QTimer::singleShot(300,this,[=](){
+                    if(coin->posX+1<=3)
+                    {
+                        coinBtn[coin->posX+1][coin->posY]->changeFlag();
+                        gameArray[coin->posX+1][coin->posY]=
+                                gameArray[coin->posX+1][coin->posY] ==0?1:0;
+                    }
+                    if(coin->posX-1>=0)
+                    {
+                        coinBtn[coin->posX-1][coin->posY]->changeFlag();
+                        gameArray[coin->posX-1][coin->posY]=
+                                gameArray[coin->posX-1][coin->posY] ==0?1:0;
+                    }
+                    if(coin->posY+1<=3)
+                    {
+                        coinBtn[coin->posX][coin->posY+1]->changeFlag();
+                        gameArray[coin->posX][coin->posY+1]=
+                                gameArray[coin->posX][coin->posY+1] ==0?1:0;
+                    }
+                    if(coin->posY-1>=0)
+                    {
+                        coinBtn[coin->posX][coin->posY-1]->changeFlag();
+                        gameArray[coin->posX][coin->posY-1]=
+                                gameArray[coin->posX][coin->posY-1] ==0?1:0;
+                    }
+                });
+
+            });
+
+
         }
     }
 

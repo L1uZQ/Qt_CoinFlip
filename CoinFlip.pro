@@ -30,7 +30,7 @@ SOURCES += \
     chooselevelscene.cpp \
     playscene.cpp \
     mycoin.cpp \
-    ../../../大三下/找工作/QT/QT从入门到实战完整版资料/day4资料/Doc/dataconfig.cpp
+    dataconfig.cpp
 
 HEADERS += \
         mainscene.h \
@@ -38,7 +38,7 @@ HEADERS += \
     chooselevelscene.h \
     playscene.h \
     mycoin.h \
-    ../../../大三下/找工作/QT/QT从入门到实战完整版资料/day4资料/Doc/dataconfig.h
+    dataconfig.h
 
 FORMS += \
         mainscene.ui
