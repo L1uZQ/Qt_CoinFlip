@@ -5,6 +5,7 @@
 #include<QPainter>
 #include"mypushbutton.h"
 #include<QTimer>
+#include<QLabel>
 
 PlayScene::PlayScene(int index)
 {
@@ -45,6 +46,34 @@ PlayScene::PlayScene(int index)
            emit this->playSceneBack();
         });
     });
+
+
+    //显示当前关卡
+    QLabel * label = new QLabel;
+    label->setParent(this);
+    QFont font;
+    font.setFamily("华文新魏");
+    font.setPointSize(19);
+    label->setFont(font);
+    QString str = QString("level: %1").arg(this->levalIndex);
+    label->setText(str);
+    //QRect(int left, int top, int width, int height)
+    label->setGeometry(QRect(30,this->height()-50,120,50));
+
+
+    //创建金币的背景图片
+    for(int i=0; i<4; i++)
+    {
+        for(int j=0; j<4; j++)
+        {
+            //绘制背景图片
+            QLabel * label = new QLabel;
+            label->setGeometry(0,0,50,50);
+            label->setPixmap(QPixmap(":/res/BoardNode(1).png"));
+            label->setParent(this);
+            label->move(57+i*50, 200+j*50);
+        }
+    }
 
 
 }
