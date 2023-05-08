@@ -4,6 +4,7 @@
 #include<QMenuBar>
 #include<QPainter>
 #include"mypushbutton.h"
+#include"mycoin.h"
 #include<QTimer>
 #include<QLabel>
 
@@ -72,6 +73,10 @@ PlayScene::PlayScene(int index)
             label->setPixmap(QPixmap(":/res/BoardNode(1).png"));
             label->setParent(this);
             label->move(57+i*50, 200+j*50);
+
+            MyCoin * coin = new MyCoin(":/res/Coin0001.png");
+            coin->setParent(this);
+            coin->move(59+i*50, 204+j*50);
         }
     }
 

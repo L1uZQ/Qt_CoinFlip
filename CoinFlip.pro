@@ -28,13 +28,17 @@ SOURCES += \
         mainscene.cpp \
     mypushbutton.cpp \
     chooselevelscene.cpp \
-    playscene.cpp
+    playscene.cpp \
+    mycoin.cpp \
+    ../../../大三下/找工作/QT/QT从入门到实战完整版资料/day4资料/Doc/dataconfig.cpp
 
 HEADERS += \
         mainscene.h \
     mypushbutton.h \
     chooselevelscene.h \
-    playscene.h
+    playscene.h \
+    mycoin.h \
+    ../../../大三下/找工作/QT/QT从入门到实战完整版资料/day4资料/Doc/dataconfig.h
 
 FORMS += \
         mainscene.ui
