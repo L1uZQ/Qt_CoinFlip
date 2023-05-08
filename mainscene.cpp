@@ -41,12 +41,14 @@ MainScene::MainScene(QWidget *parent) :
 
         QTimer::singleShot(500,this,[=](){
             this->hide();
+            chooseScene->setGeometry(this->geometry());
             chooseScene->show();
         });
 
     });
 
     connect(chooseScene,&ChooseLevelScene::ChooseSceneBack,[=](){
+        this->setGeometry(chooseScene->geometry());
         this->show();
     });
 

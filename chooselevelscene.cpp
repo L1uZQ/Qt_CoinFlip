@@ -77,11 +77,13 @@ ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
             if(pScene==NULL){
                 this->hide();
                 pScene = new PlayScene(i+1);
+                pScene->setGeometry(this->geometry());
                 pScene->show();
 
                 //返回之后销毁游戏页面
                 connect(pScene, &PlayScene::playSceneBack,[=](){
-                   this->show();
+                    this->setGeometry(pScene->geometry());
+                    this->show();
                     delete pScene;
                     pScene = NULL;
                 });
@@ -90,8 +92,6 @@ ChooseLevelScene::ChooseLevelScene(QWidget *parent) : QMainWindow(parent)
         });
 
     }
-
-
 
 }
 
